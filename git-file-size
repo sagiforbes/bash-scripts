@@ -1,0 +1,21 @@
+#!/bin/bash
+
+FILE_TO_CHECK=$1
+
+if [ -z $FILE_TO_CHECK ]; then
+    echo Select a file from tree
+    exit 1
+fi
+
+commits=$(git log --all  --pretty=oneline|cut -f1 -d' ')
+
+for c in $commits; do
+git checkout $c &>/dev/null
+if [ -e $1 ];then
+    echo "Commit $c size $(du -s -h $FILE_TO_CHECK)"
+else
+    echo "Commit $c does not have the object"
+fi
+done
+
+
