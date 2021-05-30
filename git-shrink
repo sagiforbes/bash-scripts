@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ $# != 1 ]; then
+    echo "usage: git-shrink <parent branch>"
+    exit 1
+fi
+
+CUR_BRANCH=$(git branch --show-current)
+git reset $(git merge-base $1 $CUR_BRANCH)
+git add -A
+git commit
+
